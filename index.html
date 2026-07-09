@@ -15,8 +15,10 @@
   :root {
     --bg: #08080d;
     --bg-soft: #0e0e16;
-    --surface: rgba(255, 255, 255, 0.04);
-    --line: rgba(255, 255, 255, 0.09);
+    --surface: rgba(255, 255, 255, 0.07);
+    --line: rgba(255, 255, 255, 0.16);
+    --glass-blur: blur(24px) saturate(180%);
+    --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
     --text: #f2f1f7;
     --muted: #9a98a8;
     --accent: #8b6cff;        /* primary accent — violet */
@@ -43,6 +45,61 @@
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
   ::selection { background: var(--accent); color: #fff; }
+
+  /* ================= AURORA BACKDROP =================
+     Colorful blurred orbs fixed behind all content — this is what
+     the frosted-glass panels refract, giving the macOS glass look. */
+
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .aurora .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.42;
+    will-change: transform;
+  }
+
+  .orb-1 {
+    width: 55vw; height: 55vw;
+    top: -18%; left: -12%;
+    background: radial-gradient(circle, #6d4ce0 0%, transparent 68%);
+    animation: orbFloat1 26s ease-in-out infinite alternate;
+  }
+  .orb-2 {
+    width: 46vw; height: 46vw;
+    top: 30%; right: -16%;
+    background: radial-gradient(circle, #2b8f80 0%, transparent 68%);
+    animation: orbFloat2 32s ease-in-out infinite alternate;
+  }
+  .orb-3 {
+    width: 40vw; height: 40vw;
+    bottom: -14%; left: 22%;
+    background: radial-gradient(circle, #b0487e 0%, transparent 68%);
+    animation: orbFloat3 38s ease-in-out infinite alternate;
+  }
+
+  @keyframes orbFloat1 { to { transform: translate(10vw, 14vh) scale(1.12); } }
+  @keyframes orbFloat2 { to { transform: translate(-10vw, -10vh) scale(1.18); } }
+  @keyframes orbFloat3 { to { transform: translate(8vw, -12vh) scale(0.92); } }
+
+  /* glass sheen (specular highlight sweeping the top-left of every panel) */
+  .tl-card::before,
+  .stat-card::before,
+  .social-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.03) 38%, transparent 60%);
+    pointer-events: none;
+  }
 
   /* ================= CURSOR GLOW (desktop) ================= */
 
@@ -78,10 +135,12 @@
   }
 
   .nav.scrolled {
-    background: rgba(8, 8, 13, 0.72);
-    backdrop-filter: blur(16px);
+    background: rgba(20, 20, 30, 0.42);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     padding: 14px 5%;
     border-bottom: 1px solid var(--line);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .nav-logo {
@@ -337,7 +396,8 @@
 
   /* ================= TIMELINE ================= */
 
-  .timeline-section { background: var(--bg-soft); }
+  /* transparent so the aurora orbs show through the glass cards */
+  .timeline-section { background: transparent; }
 
   .timeline {
     position: relative;
@@ -381,16 +441,21 @@
   .tl-card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 26px;
     padding: 26px;
     position: relative;
-    transition: border-color 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-highlight), 0 20px 50px -24px rgba(0, 0, 0, 0.6);
+    transition: border-color 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft),
+                transform 0.4s var(--ease-soft), background 0.4s var(--ease-soft);
   }
 
-  /* hover glow */
+  /* hover: glass brightens and lifts */
   .tl-card:hover {
-    border-color: rgba(139,108,255,0.45);
-    box-shadow: 0 0 40px -6px var(--glow), 0 24px 50px -30px rgba(0,0,0,0.8);
+    background: rgba(255, 255, 255, 0.11);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--glass-highlight), 0 0 44px -8px var(--glow), 0 28px 60px -28px rgba(0,0,0,0.8);
     transform: translateY(-4px);
   }
 
@@ -500,15 +565,21 @@
   }
 
   .stat-card {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 22px;
     padding: 28px 18px;
-    transition: border-color 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-highlight), 0 16px 40px -22px rgba(0, 0, 0, 0.55);
+    transition: border-color 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft),
+                transform 0.4s var(--ease-soft), background 0.4s var(--ease-soft);
   }
   .stat-card:hover {
-    border-color: rgba(79,216,196,0.4);
-    box-shadow: 0 0 34px -8px rgba(79,216,196,0.35);
+    background: rgba(255, 255, 255, 0.11);
+    border-color: rgba(79,216,196,0.45);
+    box-shadow: var(--glass-highlight), 0 0 34px -8px rgba(79,216,196,0.4);
     transform: translateY(-4px);
   }
   .stat-value {
@@ -543,10 +614,15 @@
   }
 
   .social-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 10px;
     padding: 14px 28px;
+    background: var(--surface);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-highlight);
     border: 1px solid var(--line);
     border-radius: 100px;
     font-size: 0.8rem;
@@ -604,8 +680,10 @@
       height: 100vh;
       width: 74%;
       max-width: 300px;
-      background: rgba(10,10,16,0.98);
-      backdrop-filter: blur(18px);
+      background: rgba(20, 20, 30, 0.55);
+      backdrop-filter: blur(34px) saturate(180%);
+      -webkit-backdrop-filter: blur(34px) saturate(180%);
+      box-shadow: inset 1px 0 0 rgba(255,255,255,0.1);
       flex-direction: column;
       justify-content: center;
       gap: 30px;
@@ -624,6 +702,13 @@
 </style>
 </head>
 <body>
+
+<!-- Aurora backdrop: blurred color orbs the glass panels refract -->
+<div class="aurora">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
 
 <div class="cursor-glow" id="cursorGlow"></div>
 
