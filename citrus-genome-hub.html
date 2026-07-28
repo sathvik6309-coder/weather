@@ -295,6 +295,82 @@
   }
   .search-hints a:hover { text-decoration: none; border-bottom-style: solid; }
 
+  /* ------------------------------------------------- rotating hero showcase */
+  .hero-showcase {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 340px;
+    height: 386px;
+    pointer-events: none;
+  }
+  .showcase-glow {
+    position: absolute;
+    left: 50%;
+    top: 168px;
+    width: 340px;
+    height: 340px;
+    margin-left: -170px;
+    margin-top: -170px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--sc-glow, rgba(255,207,74,.32)) 0%, rgba(255,207,74,0) 68%);
+    transition: background 1.1s ease;
+  }
+  .showcase-stage {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 336px;
+    animation: sc-bob 7.5s ease-in-out infinite;
+  }
+  @keyframes sc-bob {
+    0%, 100% { transform: translateY(-7px); }
+    50%      { transform: translateY(7px); }
+  }
+  .citrus-item {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: scale(.82) rotate(-10deg);
+    transition: opacity .85s ease, transform 1.15s cubic-bezier(.16, 1, .3, 1);
+  }
+  .citrus-item.is-active {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  .citrus-item svg {
+    width: 286px;
+    height: 286px;
+    filter: drop-shadow(0 22px 44px rgba(0, 0, 0, .38));
+  }
+  .showcase-caption {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 6px;
+    text-align: center;
+    transition: opacity .45s ease;
+  }
+  .showcase-caption.fading { opacity: 0; }
+  .showcase-caption em {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+  }
+  .showcase-caption span {
+    display: block;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.62);
+    margin-top: 4px;
+  }
+
   /* ------------------------------------------------------- quick start row */
   .quickstart {
     margin-top: -44px;
@@ -759,6 +835,10 @@
   .foot-bottom .links { display: flex; gap: 20px; flex-wrap: wrap; }
 
   /* ------------------------------------------------------------ responsive */
+  @media (max-width: 1180px) {
+    .hero-showcase { display: none; }
+  }
+
   @media (max-width: 1080px) {
     .quickstart-grid { grid-template-columns: repeat(3, 1fr); }
     .news-layout { grid-template-columns: 1fr; gap: 34px; }
@@ -936,6 +1016,132 @@
         <a href="#data">Data download</a>
       </div>
     </form>
+
+    <!-- rotating citrus showcase -->
+    <div class="hero-showcase">
+      <div class="showcase-glow" id="showcaseGlow"></div>
+
+      <div class="showcase-stage" id="citrusStage">
+
+        <!-- 1. Sweet orange, whole -->
+        <figure class="citrus-item is-active"
+                data-name="Citrus sinensis" data-common="Sweet orange"
+                data-glow="rgba(255,164,58,.34)">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="gOrange" cx="36%" cy="30%" r="76%">
+                <stop offset="0" stop-color="#ffc061"/>
+                <stop offset="56%" stop-color="#f28c1c"/>
+                <stop offset="100%" stop-color="#cf6008"/>
+              </radialGradient>
+            </defs>
+            <circle cx="100" cy="114" r="63" fill="url(#gOrange)"/>
+            <ellipse cx="76" cy="90" rx="21" ry="13" fill="#fff" opacity=".26" transform="rotate(-28 76 90)"/>
+            <g fill="#bd5406" opacity=".17">
+              <circle cx="122" cy="142" r="3"/><circle cx="136" cy="118" r="2.4"/>
+              <circle cx="108" cy="158" r="2.2"/><circle cx="86" cy="148" r="2.6"/>
+              <circle cx="132" cy="94" r="2"/><circle cx="96" cy="132" r="2.2"/>
+            </g>
+            <path d="M100 52 q-2 -9 -1 -15" stroke="#7a5326" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M104 44 q26 -25 53 -15 q-8 31 -39 29 q-11 -5 -14 -14z" fill="#3f9c4a"/>
+            <path d="M110 46 q23 -9 41 -13" stroke="#2c7a35" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </figure>
+
+        <!-- 2. Mandarin, cross-section -->
+        <figure class="citrus-item"
+                data-name="Citrus reticulata" data-common="Mandarin"
+                data-glow="rgba(255,147,48,.34)">
+          <svg viewBox="0 0 100 100" style="--rind:#d8590a; --flesh:#ff9330; --pith:#ffeed6" aria-hidden="true">
+            <use href="#citrus-slice"/>
+          </svg>
+        </figure>
+
+        <!-- 3. Citron, whole -->
+        <figure class="citrus-item"
+                data-name="Citrus medica" data-common="Citron"
+                data-glow="rgba(255,224,113,.32)">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="gCitron" cx="34%" cy="26%" r="80%">
+                <stop offset="0" stop-color="#fff3a1"/>
+                <stop offset="55%" stop-color="#f5cb1b"/>
+                <stop offset="100%" stop-color="#cfa004"/>
+              </radialGradient>
+            </defs>
+            <path d="M100 40 c5 0 9 5 10 11 c27 9 44 36 44 68 c0 33 -24 55 -54 55 c-30 0 -54 -22 -54 -55 c0 -32 17 -59 44 -68 c1 -6 5 -11 10 -11z" fill="url(#gCitron)"/>
+            <ellipse cx="76" cy="94" rx="18" ry="12" fill="#fff" opacity=".3" transform="rotate(-30 76 94)"/>
+            <g fill="#c39a06" opacity=".16">
+              <circle cx="120" cy="140" r="2.6"/><circle cx="132" cy="112" r="2.2"/>
+              <circle cx="104" cy="156" r="2"/><circle cx="82" cy="140" r="2.4"/>
+            </g>
+            <path d="M112 50 q28 -20 50 -8 q-12 27 -38 23 q-9 -6 -12 -15z" fill="#4aa557"/>
+            <path d="M118 51 q20 -6 36 -8" stroke="#2f7d3a" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </figure>
+
+        <!-- 4. Pummelo, cross-section -->
+        <figure class="citrus-item"
+                data-name="Citrus maxima" data-common="Pummelo"
+                data-glow="rgba(190,214,90,.30)">
+          <svg viewBox="0 0 100 100" style="--rind:#7f9e2a; --flesh:#f7e8a2; --pith:#fdfbe9" aria-hidden="true">
+            <use href="#citrus-slice"/>
+          </svg>
+        </figure>
+
+        <!-- 5. Kumquat cluster -->
+        <figure class="citrus-item"
+                data-name="Fortunella hindsii" data-common="Hong Kong kumquat"
+                data-glow="rgba(255,140,40,.32)">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="gKum" cx="34%" cy="28%" r="78%">
+                <stop offset="0" stop-color="#ffb75c"/>
+                <stop offset="60%" stop-color="#ef7f14"/>
+                <stop offset="100%" stop-color="#c85c05"/>
+              </radialGradient>
+            </defs>
+            <path d="M96 92 q-30 -34 -62 -30 q6 36 44 42 q12 0 18 -12z" fill="#3f9c4a"/>
+            <path d="M104 88 q24 -36 58 -36 q-2 38 -40 46 q-13 1 -18 -10z" fill="#4aad55"/>
+            <path d="M100 96 q-1 -22 -2 -34" stroke="#6d5228" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <ellipse cx="80" cy="128" rx="33" ry="39" fill="url(#gKum)"/>
+            <ellipse cx="128" cy="146" rx="27" ry="32" fill="url(#gKum)" opacity=".92"/>
+            <ellipse cx="68" cy="110" rx="11" ry="7" fill="#fff" opacity=".28" transform="rotate(-30 68 110)"/>
+            <ellipse cx="119" cy="132" rx="9" ry="6" fill="#fff" opacity=".24" transform="rotate(-30 119 132)"/>
+          </svg>
+        </figure>
+
+        <!-- 6. Trifoliate orange -->
+        <figure class="citrus-item"
+                data-name="Poncirus trifoliata" data-common="Trifoliate orange"
+                data-glow="rgba(140,200,110,.30)">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="gPonc" cx="36%" cy="28%" r="76%">
+                <stop offset="0" stop-color="#e0ef92"/>
+                <stop offset="58%" stop-color="#b0cc3c"/>
+                <stop offset="100%" stop-color="#7d9a1e"/>
+              </radialGradient>
+            </defs>
+            <path d="M100 56 q-30 -22 -56 -14 q8 30 40 32z" fill="#3f9c4a"/>
+            <path d="M100 56 q30 -22 56 -14 q-8 30 -40 32z" fill="#4aad55"/>
+            <path d="M100 34 q-16 8 -16 24 q16 8 32 0 q0 -16 -16 -24z" fill="#57b862"/>
+            <circle cx="100" cy="120" r="56" fill="url(#gPonc)"/>
+            <ellipse cx="80" cy="100" rx="18" ry="12" fill="#fff" opacity=".25" transform="rotate(-28 80 100)"/>
+            <g fill="#6f8c19" opacity=".2">
+              <circle cx="118" cy="142" r="2.8"/><circle cx="128" cy="118" r="2.2"/>
+              <circle cx="96" cy="152" r="2.2"/><circle cx="82" cy="136" r="2.4"/>
+            </g>
+          </svg>
+        </figure>
+
+      </div>
+
+      <figcaption class="showcase-caption" id="showcaseCaption">
+        <em>Citrus sinensis</em>
+        <span>Sweet orange</span>
+      </figcaption>
+    </div>
   </div>
 </section>
 
@@ -1472,6 +1678,38 @@
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
+  })();
+
+  // Rotating citrus showcase in the hero
+  (function () {
+    var stage = document.getElementById('citrusStage');
+    var caption = document.getElementById('showcaseCaption');
+    var glow = document.getElementById('showcaseGlow');
+    if (!stage || !caption || !glow) return;
+
+    var items = Array.prototype.slice.call(stage.querySelectorAll('.citrus-item'));
+    if (items.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var nameEl = caption.querySelector('em');
+    var commonEl = caption.querySelector('span');
+    var i = 0;
+
+    setInterval(function () {
+      items[i].classList.remove('is-active');
+      i = (i + 1) % items.length;
+
+      var next = items[i];
+      next.classList.add('is-active');
+      glow.style.setProperty('--sc-glow', next.getAttribute('data-glow'));
+
+      caption.classList.add('fading');
+      setTimeout(function () {
+        nameEl.textContent = next.getAttribute('data-name');
+        commonEl.textContent = next.getAttribute('data-common');
+        caption.classList.remove('fading');
+      }, 450);
+    }, 4200);
   })();
 
   // Count-up animation for the statistics band
