@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citrus Genome Database — Genomics, Genetics and Breeding Data for Citrus</title>
+<meta name="description" content="The Citrus Genome Database (CGD) is a USDA and NSF funded resource housing genomics, genetics and breeding data for citrus species and organisms associated with Huanglongbing (HLB).">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green-900: #10331d;
+    --green-800: #17492a;
+    --green-700: #1f6b34;
+    --green-600: #2b8a3e;
+    --leaf: #46a758;
+    --leaf-soft: #e8f4e9;
+
+    --orange: #e8730c;
+    --orange-soft: #fdf0e2;
+    --amber: #f2a900;
+    --citrus: #ffcf4a;
+
+    --bg: #f6f8f4;
+    --surface: #ffffff;
+    --line: #e2e8e1;
+    --line-strong: #cfd9cd;
+    --text: #16241b;
+    --muted: #5d6f62;
+
+    --shadow-sm: 0 1px 2px rgba(16, 51, 29, .06), 0 1px 3px rgba(16, 51, 29, .05);
+    --shadow-md: 0 4px 12px rgba(16, 51, 29, .08), 0 2px 4px rgba(16, 51, 29, .04);
+    --shadow-lg: 0 12px 32px rgba(16, 51, 29, .12), 0 4px 8px rgba(16, 51, 29, .05);
+
+    --radius: 10px;
+    --radius-lg: 16px;
+
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Source Serif 4', Georgia, serif;
+
+    --wrap: 1200px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--green-700); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img, svg { display: block; max-width: 100%; }
+  ul { list-style: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* ---------------------------------------------------------- utility bar */
+  .utility {
+    background: var(--green-900);
+    color: rgba(255,255,255,.78);
+    font-size: 13px;
+  }
+  .utility .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 38px;
+    flex-wrap: wrap;
+  }
+  .utility a { color: rgba(255,255,255,.86); }
+  .utility a:hover { color: #fff; }
+  .utility-note { display: flex; align-items: center; gap: 8px; }
+  .utility-note .dot { color: var(--citrus); }
+  .utility-links { display: flex; gap: 20px; }
+
+  /* -------------------------------------------------------------- masthead */
+  .masthead {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+  }
+  .masthead .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 78px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .brand:hover { text-decoration: none; }
+  .brand-mark { width: 46px; height: 46px; flex: none; }
+  .brand-text strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--green-900);
+    line-height: 1.15;
+  }
+  .brand-text span {
+    display: block;
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: var(--green-800);
+  }
+
+  nav.primary ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  nav.primary a {
+    display: block;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text);
+    transition: background .15s ease, color .15s ease;
+  }
+  nav.primary a:hover {
+    background: var(--leaf-soft);
+    color: var(--green-800);
+    text-decoration: none;
+  }
+  nav.primary a.cta {
+    background: var(--green-700);
+    color: #fff;
+    margin-left: 8px;
+  }
+  nav.primary a.cta:hover { background: var(--green-800); }
+
+  /* ------------------------------------------------------------------ hero */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(900px 460px at 88% -10%, rgba(255,207,74,.30), transparent 62%),
+      radial-gradient(720px 420px at 6% 106%, rgba(70,167,88,.30), transparent 60%),
+      linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 46%, #1a5730 100%);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    pointer-events: none;
+  }
+  .hero .wrap {
+    position: relative;
+    padding-top: 74px;
+    padding-bottom: 78px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.22);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--citrus);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 5.2vw, 56px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.02em;
+    max-width: 17ch;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--citrus);
+  }
+  .hero p.lede {
+    font-size: clamp(16px, 1.7vw, 19px);
+    color: rgba(255,255,255,.86);
+    max-width: 62ch;
+    margin-bottom: 34px;
+  }
+
+  .search-card {
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.20);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    max-width: 780px;
+  }
+  .search-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .search-row select,
+  .search-row input {
+    font-family: inherit;
+    font-size: 15px;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 9px;
+    padding: 13px 14px;
+    background: rgba(255,255,255,.96);
+    color: var(--text);
+    outline: none;
+  }
+  .search-row select { flex: 0 0 190px; cursor: pointer; }
+  .search-row input { flex: 1 1 260px; min-width: 0; }
+  .search-row input::placeholder { color: #8a978d; }
+  .search-row select:focus,
+  .search-row input:focus {
+    box-shadow: 0 0 0 3px rgba(255,207,74,.55);
+    border-color: var(--citrus);
+  }
+  .search-row button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 26px;
+    background: var(--orange);
+    color: #fff;
+    cursor: pointer;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .search-row button:hover { background: #cf6608; transform: translateY(-1px); }
+
+  .search-hints {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,.72);
+  }
+  .search-hints a {
+    color: #fff;
+    border-bottom: 1px dotted rgba(255,255,255,.5);
+  }
+  .search-hints a:hover { text-decoration: none; border-bottom-style: solid; }
+
+  /* ------------------------------------------------------- quick start row */
+  .quickstart {
+    margin-top: -44px;
+    position: relative;
+    z-index: 5;
+    padding-bottom: 8px;
+  }
+  .quickstart-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  .qs-tile {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 14px 17px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    color: var(--text);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .qs-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--leaf);
+    text-decoration: none;
+  }
+  .qs-tile svg {
+    width: 30px; height: 30px;
+    margin: 0 auto 11px;
+    color: var(--green-700);
+  }
+  .qs-tile strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .qs-tile span {
+    display: block;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* -------------------------------------------------------------- sections */
+  section.band { padding: 68px 0; }
+  section.band.alt { background: var(--surface); border-block: 1px solid var(--line); }
+
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 34px;
+    flex-wrap: wrap;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.2vw, 34px);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--green-900);
+    line-height: 1.2;
+  }
+  .section-head p {
+    color: var(--muted);
+    max-width: 68ch;
+    margin-top: 9px;
+    font-size: 15.5px;
+  }
+  .section-head .more {
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* --------------------------------------------------------- species cards */
+  .species-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+    gap: 18px;
+  }
+  .species-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .species-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--leaf);
+    text-decoration: none;
+  }
+  .species-art {
+    height: 132px;
+    display: grid;
+    place-items: center;
+    background: var(--art-bg, linear-gradient(150deg, #fff5dd, #ffe7b0));
+    border-bottom: 1px solid var(--line);
+  }
+  .species-art svg { width: 78px; height: 78px; }
+  .species-body { padding: 16px 17px 18px; flex: 1; display: flex; flex-direction: column; }
+  .species-body h3 {
+    font-size: 16.5px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--green-900);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .species-body .common {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: normal;
+    margin-bottom: 12px;
+  }
+  .species-meta {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--leaf-soft);
+    color: var(--green-800);
+    border: 1px solid #d3e8d6;
+  }
+  .chip.warm {
+    background: var(--orange-soft);
+    color: #a4520a;
+    border-color: #f6dcc0;
+  }
+
+  /* ------------------------------------------------------------- tool grid */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(292px, 1fr));
+    gap: 18px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent, var(--green-600));
+    border-radius: var(--radius);
+    padding: 22px 22px 20px;
+    color: var(--text);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); text-decoration: none; }
+  .tool-card .icon {
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: var(--leaf-soft);
+    color: var(--green-700);
+    margin-bottom: 14px;
+  }
+  .tool-card.warm .icon { background: var(--orange-soft); color: #b45c07; }
+  .tool-card .icon svg { width: 21px; height: 21px; }
+  .tool-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--green-900);
+    margin-bottom: 7px;
+  }
+  .tool-card p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ------------------------------------------------------------ news + aside */
+  .news-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .news-list { display: flex; flex-direction: column; }
+  .news-item {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 22px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .news-item:first-child { padding-top: 0; }
+  .news-date {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding-top: 3px;
+    line-height: 1.45;
+  }
+  .news-body h3 {
+    font-size: 17.5px;
+    font-weight: 600;
+    color: var(--green-900);
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .news-body h3 a { color: inherit; }
+  .news-body p {
+    font-size: 14.8px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .news-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--green-700);
+    background: var(--leaf-soft);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-bottom: 8px;
+  }
+
+  .aside-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+  }
+  .aside-card h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green-900);
+    margin-bottom: 14px;
+  }
+  .aside-card p { font-size: 14.5px; color: var(--muted); }
+  .link-list li {
+    border-top: 1px solid var(--line);
+    padding: 11px 0;
+  }
+  .link-list li:first-child { border-top: none; padding-top: 0; }
+  .link-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .link-list a:hover { color: var(--green-700); text-decoration: none; }
+  .link-list a::after {
+    content: "→";
+    color: var(--leaf);
+    font-size: 15px;
+  }
+
+  /* ------------------------------------------------------------ statistics */
+  .stats {
+    background:
+      radial-gradient(700px 300px at 15% 0%, rgba(70,167,88,.22), transparent 60%),
+      linear-gradient(135deg, var(--green-800), var(--green-900));
+    color: #fff;
+    padding: 58px 0;
+  }
+  .stats h2 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 31px);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .stats .sub {
+    color: rgba(255,255,255,.75);
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+  }
+  .stat {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+  .stat .num {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--citrus);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+  }
+  .stat .label {
+    font-size: 13.5px;
+    color: rgba(255,255,255,.82);
+    margin-top: 6px;
+    line-height: 1.45;
+  }
+
+  /* ---------------------------------------------------------------- about */
+  .about-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .prose p { margin-bottom: 16px; color: #37483d; font-size: 15.8px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--green-900); font-weight: 600; }
+
+  .funding-card {
+    background: var(--leaf-soft);
+    border: 1px solid #d3e8d6;
+    border-radius: var(--radius-lg);
+    padding: 26px;
+  }
+  .funding-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--green-800);
+    margin-bottom: 16px;
+  }
+  .funding-card li {
+    font-size: 14.3px;
+    color: #38513f;
+    padding: 10px 0 10px 20px;
+    border-top: 1px solid #d3e8d6;
+    position: relative;
+    line-height: 1.5;
+  }
+  .funding-card li:first-of-type { border-top: none; }
+  .funding-card li::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: 18px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+
+  /* --------------------------------------------------------------- partners */
+  .partners {
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: 44px 0;
+  }
+  .partners .label {
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+  .partner-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+  .partner {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 22px;
+    text-align: center;
+    min-width: 168px;
+    background: #fbfcfa;
+  }
+  .partner strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--green-800);
+  }
+  .partner span {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ----------------------------------------------------------------- footer */
+  footer.site {
+    background: var(--green-900);
+    color: rgba(255,255,255,.72);
+    padding: 54px 0 0;
+    font-size: 14.3px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+  .foot-brand { display: flex; gap: 13px; margin-bottom: 15px; align-items: center; }
+  .foot-brand svg { width: 40px; height: 40px; flex: none; }
+  .foot-brand strong {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  footer.site p { line-height: 1.65; max-width: 46ch; }
+  footer.site h4 {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+  footer.site li { margin-bottom: 9px; }
+  footer.site a { color: rgba(255,255,255,.75); }
+  footer.site a:hover { color: #fff; }
+
+  .cite {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-top: 18px;
+    font-size: 13.2px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.78);
+  }
+  .cite span { display: block; color: var(--citrus); font-weight: 600; margin-bottom: 5px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+
+  .foot-bottom {
+    border-top: 1px solid rgba(255,255,255,.13);
+    padding: 20px 0 28px;
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 13.2px;
+  }
+  .foot-bottom .links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+  /* ------------------------------------------------------------ responsive */
+  @media (max-width: 1080px) {
+    .quickstart-grid { grid-template-columns: repeat(3, 1fr); }
+    .news-layout { grid-template-columns: 1fr; gap: 34px; }
+    .about-layout { grid-template-columns: 1fr; gap: 32px; }
+    .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle { display: block; }
+    nav.primary {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      padding: 10px 24px 18px;
+    }
+    nav.primary.open { display: block; }
+    nav.primary ul { flex-direction: column; align-items: stretch; gap: 2px; }
+    nav.primary a { padding: 12px 10px; }
+    nav.primary a.cta { margin-left: 0; margin-top: 8px; text-align: center; }
+    .masthead .wrap { position: relative; }
+    .hero .wrap { padding-top: 52px; padding-bottom: 62px; }
+    .search-row select { flex: 1 1 100%; }
+    .search-row button { flex: 1 1 100%; }
+    .news-item { grid-template-columns: 1fr; gap: 8px; }
+    .news-date { padding-top: 0; }
+    section.band { padding: 52px 0; }
+  }
+
+  @media (max-width: 560px) {
+    .quickstart-grid { grid-template-columns: repeat(2, 1fr); }
+    .utility .wrap { justify-content: center; text-align: center; }
+    .utility-note { display: none; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .brand-text strong { font-size: 18px; }
+    .brand-text span { font-size: 11px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ reusable citrus slice symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="citrus-slice" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="var(--rind, #f2a900)"/>
+    <circle cx="50" cy="50" r="42" fill="#fffdf5"/>
+    <circle cx="50" cy="50" r="39" fill="var(--pith, #fff4d6)"/>
+    <g fill="var(--flesh, #ffb64a)">
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(45 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(90 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(135 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(180 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(225 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(270 50 50)"/>
+      <path d="M50 50 L37.7 16.2 A36 36 0 0 1 62.3 16.2 Z" transform="rotate(315 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="4.4" fill="#fffdf5"/>
+  </symbol>
+
+  <symbol id="microbe" viewBox="0 0 100 100">
+    <ellipse cx="50" cy="50" rx="34" ry="20" transform="rotate(-24 50 50)" fill="var(--flesh, #8bc48f)"/>
+    <ellipse cx="50" cy="50" rx="27" ry="14" transform="rotate(-24 50 50)" fill="var(--pith, #d9efdb)" opacity=".55"/>
+    <g stroke="var(--rind, #2b8a3e)" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M22 36 q-9 -7 -13 2"/>
+      <path d="M78 64 q9 7 13 -2"/>
+      <path d="M30 66 q-8 6 -14 1"/>
+      <path d="M70 34 q8 -6 14 -1"/>
+    </g>
+    <circle cx="40" cy="46" r="3.4" fill="var(--rind, #2b8a3e)"/>
+    <circle cx="56" cy="55" r="3" fill="var(--rind, #2b8a3e)"/>
+    <circle cx="60" cy="42" r="2.4" fill="var(--rind, #2b8a3e)"/>
+  </symbol>
+</svg>
+
+<!-- =========================================================== utility bar -->
+<div class="utility">
+  <div class="wrap">
+    <div class="utility-note">
+      <span class="dot">●</span>
+      <span>Part of the tfGDR family of databases — developed and hosted by the Mainlab at Washington State University</span>
+    </div>
+    <ul class="utility-links">
+      <li><a href="#news">News</a></li>
+      <li><a href="#about">Help</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" aria-label="Log in to the Citrus Genome Database">Log in / Register</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================== masthead -->
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" style="--rind:#e8730c; --flesh:#ffa43a; --pith:#fff0d2" aria-hidden="true"><use href="#citrus-slice"/></svg>
+      <span class="brand-text">
+        <strong>Citrus Genome Database</strong>
+        <span>citrusgenomedb.org</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span class="sr-only">Toggle navigation</span>
+    </button>
+
+    <nav class="primary" id="primaryNav" aria-label="Primary">
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#species">Species</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#news">News &amp; Events</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#data" class="cta">Download</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ================================================================== hero -->
+<section class="hero" id="top">
+  <svg class="hero-pattern" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="dots" width="52" height="52" patternUnits="userSpaceOnUse">
+        <circle cx="6" cy="6" r="1.6" fill="#ffffff"/>
+        <circle cx="32" cy="30" r="1.1" fill="#ffcf4a"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#dots)"/>
+  </svg>
+
+  <div class="wrap">
+    <span class="hero-eyebrow">USDA &amp; NSF funded community resource</span>
+    <h1>Genomics, genetics and breeding data for <em>citrus</em></h1>
+    <p class="lede">
+      The Citrus Genome Database (CGD) enables basic, translational and applied research in citrus.
+      It houses curated genome assemblies and annotations, genetic maps, markers, QTL and pathway data
+      for citrus species and for the organisms associated with Huanglongbing (HLB).
+    </p>
+
+    <form class="search-card" onsubmit="return false;">
+      <label class="sr-only" for="searchType">Search category</label>
+      <label class="sr-only" for="searchTerm">Search term</label>
+      <div class="search-row">
+        <select id="searchType">
+          <option>All data types</option>
+          <option>Genes &amp; transcripts</option>
+          <option>Genome assemblies</option>
+          <option>Markers</option>
+          <option>Genetic maps</option>
+          <option>QTL &amp; GWAS</option>
+          <option>Germplasm</option>
+          <option>Publications</option>
+        </select>
+        <input id="searchTerm" type="search" placeholder="Search CGD — e.g. Cs1g05590, CAPS marker, fruit acidity QTL">
+        <button type="submit">Search</button>
+      </div>
+      <div class="search-hints">
+        <span>Popular:</span>
+        <a href="#tools">JBrowse 2</a>
+        <a href="#tools">BLAST</a>
+        <a href="#tools">MegaSearch</a>
+        <a href="#tools">CitrusCyc</a>
+        <a href="#tools">MapViewer</a>
+        <a href="#data">Data download</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ========================================================= tools quick start -->
+<div class="quickstart">
+  <div class="wrap">
+    <div class="quickstart-grid">
+      <a class="qs-tile" href="#tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M2.5 9h19M7 13h4M13 16h6M7 16h2"/></svg>
+        <strong>JBrowse 2</strong>
+        <span>Browse genomes &amp; tracks</span>
+      </a>
+      <a class="qs-tile" href="#tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5 16 16M8 9h6M8 12h6M9.5 14.5h3"/></svg>
+        <strong>BLAST</strong>
+        <span>Sequence similarity</span>
+      </a>
+      <a class="qs-tile" href="#tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V8M12 20V4M20 20v-9"/><circle cx="4" cy="5.5" r="2"/><circle cx="12" cy="20" r="0"/><path d="M4 12h8M12 15h8"/></svg>
+        <strong>MapViewer</strong>
+        <span>Genetic map viewer</span>
+      </a>
+      <a class="qs-tile" href="#tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><circle cx="6" cy="19" r="2.4"/><path d="M8.2 6.3 15.8 10.7M15.8 13.3 8.2 17.7"/></svg>
+        <strong>CitrusCyc</strong>
+        <span>Metabolic pathways</span>
+      </a>
+      <a class="qs-tile" href="#tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h6v14H4zM14 5h6v14h-6z"/><path d="M10 8.5h4M10 12h4M10 15.5h4"/></svg>
+        <strong>Synteny Viewer</strong>
+        <span>Compare genomes</span>
+      </a>
+      <a class="qs-tile" href="#data">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11M8 10.5l4 4 4-4M4 19h16"/></svg>
+        <strong>Download</strong>
+        <span>Bulk data files</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== species -->
+<section class="band" id="species">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Species Quick Start</h2>
+        <p>
+          Every species represented in CGD has a Species Overview page giving quick access to all the data
+          associated with that crop — assemblies, annotations, transcriptomes, maps, markers and QTL.
+        </p>
+      </div>
+      <a class="more" href="#data">View all species data →</a>
+    </div>
+
+    <div class="species-grid">
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#fff3d9,#ffe0a8)">
+          <svg style="--rind:#e8730c; --flesh:#ffa43a; --pith:#fff2da" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Citrus sinensis</h3>
+          <div class="common">Sweet orange</div>
+          <div class="species-meta">
+            <span class="chip">Newhall T2T v2.0</span>
+            <span class="chip">Jinhong v1.0</span>
+            <span class="chip warm">RefTrans</span>
+            <span class="chip">CitrusCyc</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#fff6de,#ffe9b5)">
+          <svg style="--rind:#f2a900; --flesh:#ffc453; --pith:#fff6e0" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Citrus clementina</h3>
+          <div class="common">Clementine mandarin</div>
+          <div class="species-meta">
+            <span class="chip">Reference genome</span>
+            <span class="chip">CitrusCyc</span>
+            <span class="chip warm">Genetic maps</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#ffeeda,#ffd9a6)">
+          <svg style="--rind:#d8590a; --flesh:#ff9330; --pith:#ffeed6" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Citrus reticulata</h3>
+          <div class="common">Mandarin</div>
+          <div class="species-meta">
+            <span class="chip">Murcott v1.0</span>
+            <span class="chip">IRM2 v1.0</span>
+            <span class="chip warm">JBrowse 2</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#f4f9e6,#ddefbd)">
+          <svg style="--rind:#8aab21; --flesh:#c8dd7a; --pith:#f3f8e2" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Citrus maxima</h3>
+          <div class="common">Pummelo</div>
+          <div class="species-meta">
+            <span class="chip">Cupi Majiyou v1</span>
+            <span class="chip">CitrusCyc</span>
+            <span class="chip warm">Markers</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#fffbe2,#fff0b2)">
+          <svg style="--rind:#e0b400; --flesh:#ffe071; --pith:#fffbe6" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Citrus medica</h3>
+          <div class="common">Citron</div>
+          <div class="species-meta">
+            <span class="chip">Genome data</span>
+            <span class="chip warm">Sequences</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#eef7ec,#cfe8cf)">
+          <svg style="--rind:#2b8a3e; --flesh:#7cc383; --pith:#eaf6ea" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Poncirus trifoliata</h3>
+          <div class="common">Trifoliate orange — rootstock</div>
+          <div class="species-meta">
+            <span class="chip">Transcript assemblies</span>
+            <span class="chip warm">Markers</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#fff5e8,#ffe3bd)">
+          <svg style="--rind:#c96a12; --flesh:#ffb264; --pith:#fff3e2" aria-hidden="true"><use href="#citrus-slice"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Fortunella hindsii</h3>
+          <div class="common">Hong Kong kumquat</div>
+          <div class="species-meta">
+            <span class="chip">S3y-45 v2</span>
+            <span class="chip">CitrusCyc</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="species-card" href="#data">
+        <div class="species-art" style="--art-bg:linear-gradient(150deg,#eaf4ee,#cfe6d8)">
+          <svg style="--rind:#1f6b34; --flesh:#8bc48f; --pith:#dcefdf" aria-hidden="true"><use href="#microbe"/></svg>
+        </div>
+        <div class="species-body">
+          <h3>Ca. Liberibacter spp.</h3>
+          <div class="common">HLB-associated bacteria</div>
+          <div class="species-meta">
+            <span class="chip">Genomes</span>
+            <span class="chip warm">Synteny analysis</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ tools -->
+<section class="band alt" id="tools">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Tools Quick Start</h2>
+        <p>
+          CGD provides tools to view and compare genetic maps, BLAST genomes and reference transcriptomes,
+          view genome annotations in JBrowse, and search interfaces to find and download marker, map, QTL
+          and sequence data.
+        </p>
+      </div>
+      <a class="more" href="#data">Browse all tools →</a>
+    </div>
+
+    <div class="tool-grid">
+      <a class="tool-card" href="#" style="--accent:var(--green-600)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M2.5 9h19M7 13h4M13 16h6M7 16h2"/></svg></div>
+        <h3>JBrowse 2</h3>
+        <p>
+          A fast, embeddable genome browser for viewing genome assemblies and their annotations.
+          Thirteen genomes from multiple species are available, with Minimap2 synteny tracks alongside
+          marker, QTL and GWAS tracks.
+        </p>
+      </a>
+
+      <a class="tool-card warm" href="#" style="--accent:var(--orange)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5 16 16M8 9h6M8 12h6M9.5 14.5h3"/></svg></div>
+        <h3>BLAST</h3>
+        <p>
+          Search one or more of your own sequences against CGD genomes and reference transcriptomes.
+          Select a query type — nucleotide or protein — choose a target database and set your search
+          parameters.
+        </p>
+      </a>
+
+      <a class="tool-card" href="#" style="--accent:var(--leaf)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><circle cx="6" cy="19" r="2.4"/><path d="M8.2 6.3 15.8 10.7M15.8 13.3 8.2 17.7"/></svg></div>
+        <h3>CitrusCyc</h3>
+        <p>
+          Metabolic pathway databases generated with Pathway Tools, allowing users to view the pathways
+          present in citrus genomes. CitrusCyc instances are available for <em>C. clementina</em>,
+          <em>C. sinensis</em>, <em>C. maxima</em> and <em>F. hindsii</em>.
+        </p>
+      </a>
+
+      <a class="tool-card" href="#" style="--accent:var(--green-700)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18M12 3v18M19 3v18"/><path d="M5 8h7M12 13h7M5 17h7"/></svg></div>
+        <h3>MapViewer</h3>
+        <p>
+          Dynamic visualization of genetic maps. Compare linkage groups side by side, follow markers
+          between maps, and link out from any marker to its underlying sequence and QTL evidence.
+        </p>
+      </a>
+
+      <a class="tool-card warm" href="#" style="--accent:var(--amber)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h6v14H4zM14 5h6v14h-6z"/><path d="M10 8.5h4M10 12h4M10 15.5h4"/></svg></div>
+        <h3>Synteny Viewer</h3>
+        <p>
+          Built on the Tripal Synteny Viewer, this tool displays the results of Citrus and Liberibacter
+          genome comparisons performed with MCScanX, revealing conserved blocks between assemblies.
+        </p>
+      </a>
+
+      <a class="tool-card" href="#" style="--accent:var(--green-600)">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="3"/><path d="M4.5 5.5v13c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-13"/><path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"/></svg></div>
+        <h3>MegaSearch</h3>
+        <p>
+          A flexible, filter-driven interface for finding and downloading marker, map, QTL, germplasm and
+          sequence records. MegaSearch supports searching records with empty fields so that partially
+          curated data stays discoverable.
+        </p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== news -->
+<section class="band" id="news">
+  <div class="wrap">
+    <div class="news-layout">
+      <div>
+        <div class="section-head">
+          <div>
+            <h2>News &amp; Events</h2>
+            <p>Updates from the database and from the wider citrus research community.</p>
+          </div>
+          <a class="more" href="#">All news →</a>
+        </div>
+
+        <div class="news-list">
+          <article class="news-item">
+            <div class="news-date">30 Jul 2025</div>
+            <div class="news-body">
+              <span class="news-tag">Newsletter</span>
+              <h3><a href="#">July 2025 CGD Newsletter — Issue 16</a></h3>
+              <p>
+                The sixteenth issue of the CGD newsletter is out, rounding up new genomes, tool releases and
+                community news from the past year.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <div class="news-date">Jul 2025</div>
+            <div class="news-body">
+              <span class="news-tag">New genomes</span>
+              <h3><a href="#">Three new genomes released: Newhall T2T v2.0, Murcott v1.0 and IRM2 v1.0</a></h3>
+              <p>
+                <em>Citrus sinensis</em> cv. Newhall telomere-to-telomere v2.0, <em>C. reticulata</em> cv. Murcott
+                v1.0 and <em>C. reticulata</em> IRM2 v1.0 are now available, with assemblies, annotations and
+                browser tracks.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <div class="news-date">2025</div>
+            <div class="news-body">
+              <span class="news-tag">Tools</span>
+              <h3><a href="#">JBrowse 2 has launched — 13 genomes now available</a></h3>
+              <p>
+                CGD has moved its most heavily used genomes to JBrowse 2. Minimap2 synteny tracks are available
+                alongside marker, QTL and GWAS tracks, and a tutorial covering the new features is provided.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <div class="news-date">28 May 2024</div>
+            <div class="news-body">
+              <span class="news-tag">New genome</span>
+              <h3><a href="#"><em>Citrus sinensis</em> cv. Jinhong genome v1.0 available</a></h3>
+              <p>
+                The Jinhong sweet orange assembly and its annotation have been loaded into CGD and are
+                searchable through MegaSearch and BLAST.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <div class="news-date">23 Aug 2023</div>
+            <div class="news-body">
+              <span class="news-tag">Data update</span>
+              <h3><a href="#">Differentially Methylated Regions added to the <em>C. sinensis</em> JBrowse</a></h3>
+              <p>
+                Differentially methylated region data from a published study has been added as a track on the
+                sweet orange genome browser.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <div class="news-date">10 Aug 2023</div>
+            <div class="news-body">
+              <span class="news-tag">Pathways</span>
+              <h3><a href="#">New <em>C. maxima</em> and updated <em>F. hindsii</em> CitrusCyc</a></h3>
+              <p>
+                CitrusCyc pathway databases were added for <em>C. maxima</em> Cupi Majiyou v1 and updated for
+                <em>F. hindsii</em> S3y-45 v2.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <aside>
+        <div class="aside-card">
+          <h3>Homepage overview</h3>
+          <p>
+            The CGD homepage is divided into a few key areas to help facilitate navigation. The
+            <strong>Species Quick Start</strong> has an icon for each species in CGD; clicking an icon opens the
+            Species Overview page for quick access to all data for that crop. To its right, the
+            <strong>Tools Quick Start</strong> links to common tools and data search interfaces, while the centre
+            region carries <strong>News and Events</strong> from CGD and from the community.
+          </p>
+        </div>
+
+        <div class="aside-card">
+          <h3>Quick links</h3>
+          <ul class="link-list">
+            <li><a href="#data">Data download</a></li>
+            <li><a href="#tools">JBrowse and genomes</a></li>
+            <li><a href="#tools">BLAST search</a></li>
+            <li><a href="#news">Work completed</a></li>
+            <li><a href="#about">About CGD</a></li>
+            <li><a href="#contact">Contact us</a></li>
+          </ul>
+        </div>
+
+        <div class="aside-card">
+          <h3>Submit your data</h3>
+          <p>
+            CGD curates community datasets — genome assemblies, genetic maps, markers, QTL and phenotype data.
+            Get in touch with the curation team to have your published data integrated and made searchable
+            alongside the rest of the citrus community's resources.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ statistics -->
+<section class="stats" id="data">
+  <div class="wrap">
+    <h2>Data at a glance</h2>
+    <p class="sub">Curated, cross-linked and available for bulk download.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="num" data-count="13">13</div><div class="label">Genome assemblies in JBrowse</div></div>
+      <div class="stat"><div class="num" data-count="63">63</div><div class="label">Citrus genetic maps</div></div>
+      <div class="stat"><div class="num" data-count="42238">42,238</div><div class="label">Citrus markers</div></div>
+      <div class="stat"><div class="num" data-count="479">479</div><div class="label">Citrus QTL</div></div>
+      <div class="stat"><div class="num" data-count="4">4</div><div class="label">CitrusCyc pathway databases</div></div>
+      <div class="stat"><div class="num" data-count="1">1</div><div class="label"><em>C. sinensis</em> reference transcriptome (RefTrans)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ about -->
+<section class="band alt" id="about">
+  <div class="wrap">
+    <div class="about-layout">
+      <div>
+        <div class="section-head" style="margin-bottom:22px">
+          <div><h2>About the Citrus Genome Database</h2></div>
+        </div>
+        <div class="prose">
+          <p>
+            The <strong>Citrus Genome Database (CGD)</strong> is a USDA and NSF funded resource to enable basic,
+            translational and applied research in citrus. It houses genomics, genetics and breeding data for
+            citrus species and for the organisms associated with Huanglongbing (HLB), the disease complex that
+            represents the most serious threat to citrus production worldwide.
+          </p>
+          <p>
+            CGD is built and maintained by the <strong>Mainlab at Washington State University</strong> using
+            Tripal, an open-source toolkit for constructing online genomic and genetic databases on top of the
+            Chado schema. The same platform underpins the wider tfGDR family of tree fruit, nut and specialty
+            crop databases, so data models, search interfaces and tools stay consistent across crops.
+          </p>
+          <p>
+            Data in CGD includes the <em>Citrus clementina</em> and <em>Citrus sinensis</em> genomes,
+            <em>Ca.</em> Liberibacter genomes, the <em>C. sinensis</em> reference transcriptome (RefTrans),
+            63 citrus genetic maps, 42,238 markers, 479 QTL, and CitrusCyc pathway databases. All of it is
+            cross-linked — a marker links to its map position, its sequence and any QTL it anchors.
+          </p>
+        </div>
+      </div>
+
+      <div class="funding-card">
+        <h3>Funding &amp; support</h3>
+        <ul>
+          <li>USDA NIFA Specialty Crop Research Initiative (2022–2026)</li>
+          <li>USDA NIFA National Research Support Project 10 (2014–2024)</li>
+          <li>NSF Plant Genome Research Program Award (2016–2019)</li>
+          <li>USDA NIFA Specialty Crop Research Initiative (2009–2014)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= partners -->
+<div class="partners">
+  <div class="wrap">
+    <div class="label">Developed, funded and supported by</div>
+    <div class="partner-row">
+      <div class="partner"><strong>USDA NIFA</strong><span>SCRI &amp; NRSP10</span></div>
+      <div class="partner"><strong>NSF</strong><span>Plant Genome Research Program</span></div>
+      <div class="partner"><strong>Mainlab</strong><span>Washington State University</span></div>
+      <div class="partner"><strong>Tripal</strong><span>Open-source database platform</span></div>
+      <div class="partner"><strong>tfGDR</strong><span>Tree fruit genome databases</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================================== footer -->
+<footer class="site" id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <svg style="--rind:#f2a900; --flesh:#ffc453; --pith:#fff6e0" aria-hidden="true"><use href="#citrus-slice"/></svg>
+          <strong>Citrus Genome<br>Database</strong>
+        </div>
+        <p>
+          A community resource for citrus genomics, genetics and breeding data, including the organisms
+          associated with Huanglongbing (HLB).
+        </p>
+        <div class="cite">
+          <span>How to cite</span>
+          Please acknowledge the Citrus Genome Database and its funding sources in publications that use CGD
+          data or tools, and cite the primary publication for any dataset you reuse.
+        </div>
+      </div>
+
+      <div>
+        <h4>Data</h4>
+        <ul>
+          <li><a href="#species">Species overview</a></li>
+          <li><a href="#data">Genome assemblies</a></li>
+          <li><a href="#data">Genetic maps &amp; markers</a></li>
+          <li><a href="#data">QTL and GWAS</a></li>
+          <li><a href="#data">Bulk download</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="#tools">JBrowse 2</a></li>
+          <li><a href="#tools">BLAST</a></li>
+          <li><a href="#tools">MapViewer</a></li>
+          <li><a href="#tools">Synteny Viewer</a></li>
+          <li><a href="#tools">CitrusCyc</a></li>
+          <li><a href="#tools">MegaSearch</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#news">News &amp; events</a></li>
+          <li><a href="#news">Work completed</a></li>
+          <li><a href="#news">Newsletters</a></li>
+          <li><a href="#about">About CGD</a></li>
+          <li><a href="#contact">Contact &amp; data submission</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div>© Citrus Genome Database — developed and hosted by the Mainlab, Washington State University.</div>
+      <div class="links">
+        <a href="#about">Funding</a>
+        <a href="#contact">Contact</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile navigation
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('primaryNav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // Count-up animation for the statistics band
+  (function () {
+    var nums = Array.prototype.slice.call(document.querySelectorAll('.stat .num[data-count]'));
+    if (!nums.length) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    var format = function (n) { return n.toLocaleString('en-US'); };
+
+    var run = function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      if (isNaN(target)) return;
+      var duration = 1100;
+      var start = null;
+
+      var step = function (ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = format(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(step);
+      };
+
+      el.textContent = '0';
+      requestAnimationFrame(step);
+    };
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          run(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    nums.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
